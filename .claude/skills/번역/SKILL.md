@@ -30,7 +30,14 @@ command -v pdf2zh || uv tool install --python 3.12 pdf2zh \
 
 출력은 사용자가 앱에서 열 수 있도록 레포의 `output/` 폴더에 둔다.
 
+번역문 글꼴은 고딕체로 맞춘다. 원문 영문 글꼴(Arial 등)에는 한글 글리프가 없어 그대로 쓸 수 없고, pdf2zh 기본값은 명조체(SourceHanSerifKR)라 슬라이드와 어울리지 않는다. `set-font.sh`가 아래 순서로 글꼴을 골라 pdf2zh 설정에 기록하므로 번역 전에 매번 실행한다.
+
+1. `KO_FONT` 환경 변수로 지정한 글꼴 파일
+2. `fonts/malgun.ttf`: 사용자가 맑은 고딕 파일을 올리면 여기에 복사한다. Microsoft 라이선스 글꼴이라 레포에 커밋하지 않는다.
+3. `fonts/Pretendard-Regular.otf`: 기본값. 맑은 고딕과 비슷한 고딕체이며 OFL 라이선스로 레포에 포함했다.
+
 ```bash
+/home/user/translator/.claude/skills/번역/set-font.sh
 mkdir -p /home/user/translator/output
 GEMINI_MODEL="${GEMINI_MODEL:-gemini-flash-latest}" \
   pdf2zh "<입력.pdf>" -li en -lo ko -s gemini -t 4 -o /home/user/translator/output
